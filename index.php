@@ -35,6 +35,10 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+.menu input[type=text]{
+    height: 20px;
+    width: 100%;
+}
 
   </style>
 
