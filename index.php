@@ -370,6 +370,10 @@ tr:nth-child(even) {
 
             
         });
+	    
+	$(".Imenu a input").not(':checked').each(function() {
+		$(this).parent('a').toggle();
+	    });
         
         
     </script>
