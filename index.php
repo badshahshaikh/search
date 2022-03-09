@@ -352,7 +352,7 @@ tr:nth-child(even) {
             });
         });
         
-        $("input").keyup(function() {
+        $("input").on('input',function() {
 
             var search_text = $(this).val().toLowerCase();
 
