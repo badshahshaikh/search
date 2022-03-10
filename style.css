@@ -48,7 +48,8 @@
 }
 
 .smenu a {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 5px 26px;
     color: white;
     margin: 4px 0;
