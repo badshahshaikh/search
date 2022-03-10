@@ -35,9 +35,17 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
 .menu input[type=text]{
     height: 20px;
-    width: 100%;
+    width: 85%;
+}
+
+.see_checked{
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+}
 }
 
   </style>
@@ -58,7 +66,8 @@ tr:nth-child(even) {
                     <ul>
                         <li class="item" id="Gender">
                             <a href="#Gender" class="btn"><i class="fa fa-venus-mars"></i> Gender </a>
-                            <div class="smenu">
+                            <div class="smenu gen_menu">
+                            <a><input type="text">  <br></a>
                                 <a><input type="radio" id="Male" name="gender" value="1" ><label for="Male">Male</label><br></a>
                                 <a><input type="radio" id="Female" name="gender" value="2"  ><label for="Female">Female</label><br></a>
                                 <a><input type="radio" id="Both" name="gender" value="0"  ><label for="Both">Both</label><br></a>
@@ -66,32 +75,43 @@ tr:nth-child(even) {
                             </div>
                         </li>
 
-                        <li class="item" id="Qualification">
-                            <a href="#Qualification" class="btn"><i class="fa fa-book"></i> Qualification Standard </a>
-                            <div class="smenu">
-                                <a><input type="checkbox" id="below_ssc" name="below_ssc" ><label for="below_ssc">Below SSC</label><br></a>
-                                <a><input type="checkbox" id="ssc_pass" name="ssc_pass" ><label for="ssc_pass">SSC Pass</label><br></a>
-                                <a><input type="checkbox" id="hsc_pass" name="hsc_pass" ><label for="hsc_pass">HSC Pass</label><br></a>
-                                <a><input type="checkbox" id="under_graduate" name="under_graduate" ><label for="under_graduate">Under Graduate</label><br></a>
-                                <a><input type="checkbox" id="graduate" name="graduate" ><label for="graduate">Graduate</label><br></a>
-                                <a><input type="checkbox" id="post_graduate" name="post_graduate" ><label for="post_graduate">Post Graduate</label><br></a>
-                                <a><input type="checkbox" id="phd" name="phd" ><label for="phd">PHD</label><br></a>
-                                
-                            </div>
-                        </li>
 
-                        
 
                         <?php
 
                             
+                        $sql = 'SELECT DISTINCT cd_qualification_std FROM candidate_info';
+                        $result = $link->query($sql);
+                        ?>
+                        <li class="item" id="Qualification">
+                        <a href="#Qualification" class="btn"><i class="fa fa-briefcase"></i> Qualification Standard </a>
+                        <div class="smenu qual_menu">
+                        <a><input type="text"> <input class="see_checked" type="checkbox" >  <br></a>
+                        <?php
+                            $qual_std = 1;
+                            while ($row = $result->fetch_assoc()) {
+
+                                echo '<a><input type="checkbox" id="qual_strm_'.$qual_std.'" name="qual_std[]" value="'.$row['cd_qualification_std'].'" ><label for="qual_strm_'.$qual_std.'">'.$row['cd_qualification_std'].'</label><br></a>';
+                                
+                                
+                                $qual_std++;
+
+                            }
+
+
+                        ?>
+
+                        </div>
+                        </li>
+
+                        <?php
                             $sql = 'SELECT DISTINCT cd_qualification_stream FROM candidate_info';
                             $result = $link->query($sql);
                         ?>
                         <li class="item" id="qual_strm">
                             <a href="#qual_strm" class="btn"><i class="fa fa-briefcase"></i> Qualification Stream </a>
-                            <div class="smenu">
-
+                            <div class="smenu qualstr_menu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" >  <br></a>
                             <?php
                                 $qual_strm = 1;
                                 while ($row = $result->fetch_assoc()) {
@@ -109,48 +129,80 @@ tr:nth-child(even) {
                         </div>
                         </li>
 
+
+                        <?php
+                            $sql = 'SELECT DISTINCT cd_fresher_intern_exp FROM candidate_info';
+                            $result = $link->query($sql);
+                        ?>
                         <li class="item" id="Experience">
                             <a href="#Experience" class="btn"><i class="fa fa-briefcase"></i> Experience </a>
-                            <div class="smenu">
-                                <a><input type="checkbox" id="fresher" name="fresher" ><label for="fresher">Fresher</label><br></a>
-                                <a><input type="checkbox" id="below1year" name="below1year" ><label for="below1year">Below 1 year</label><br></a>
-                                <a><input type="checkbox" id="1to2year" name="1to2year" ><label for="1to2year">1 - 2 years</label><br></a>
-                                <a><input type="checkbox" id="3to5year" name="3to5year" ><label for="3to5year">3 - 5 years</label><br></a>
-                                <a><input type="checkbox" id="6to9year" name="6to9year" ><label for="6to9year">6 - 9 years</label><br></a>
-                                <a><input type="checkbox" id="10plusyear" name="10plusyear" ><label for="10plusyear">10+ years</label><br></a>
+                            <div class="smenu exp_menu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" >  <br></a>
+                            <?php
+                                $Experience = 1;
+                                while ($row = $result->fetch_assoc()) {
 
-                            </div>
+                                    echo '<a><input type="checkbox" id="exp_'.$Experience.'" name="exp_c[]" value="'.$row['cd_fresher_intern_exp'].'" ><label for="exp_'.$Experience.'">'.$row['cd_fresher_intern_exp'].'</label><br></a>';
+                                    
+                                    
+                                    $Experience++;
+
+                                }
+
+
+                            ?>
+
+                        </div>
                         </li>
 
+
+                        <?php
+                            $sql = 'SELECT * FROM cd_language';
+                            $result = $link->query($sql);
+                        ?>
                         <li class="item" id="Language">
-                            <a href="#Language" class="btn"><i class="fa fa-language"></i> Language </a>
-                            <div class="smenu">
-                                <a><input type="checkbox" id="lng_hindi" name="lng_hindi" ><label for="lng_hindi">Hindi</label><br></a>
-                                <a><input type="checkbox" id="lng_eng" name="lng_eng" ><label for="lng_eng">English</label><br></a>
-                                <a><input type="checkbox" id="lng_marathi" name="lng_marathi" ><label for="lng_marathi">Marathi</label><br></a>
-                                <a><input type="checkbox" id="lng_tamil" name="lng_tamil" ><label for="lng_tamil">Tamil</label><br></a>
-                                <a><input type="checkbox" id="lng_urdu" name="lng_urdu" ><label for="lng_urdu">Urdu</label><br></a>
-                                <a><input type="checkbox" id="lng_guj" name="lng_guj" ><label for="lng_guj">Gujrati</label><br></a>
-                            </div>
-                        </li>
+                            <a href="#Language" class="btn"><i class="fa fa-briefcase"></i> Language </a>
+                            <div class="smenu lang_menu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" >  <br></a>
+                            <?php
+                                $Language = 1;
+                                while ($row = $result->fetch_assoc()) {
 
+                                    echo '<a><input type="checkbox" id="lang_'.$Language.'" name="lang_[]" value="'.$row['name'].'" ><label for="lang_'.$Language.'">'.$row['name'].'</label><br></a>';
+                                    
+                                    $Language++;
+
+                                }
+
+                            ?>
+
+                        </div>
+                        </li>
+                        
+
+                        <?php
+                            $sql = 'SELECT DISTINCT cd_exp_designation FROM candidate_info';
+                            $result = $link->query($sql);
+                        ?>
                         <li class="item" id="Designation">
                             <a href="#Designation" class="btn"><i class="fa fa-briefcase"></i> Designation </a>
-                            <div class="smenu">
-                                <a><input type="checkbox" id="Intern" name="Intern" ><label for="Intern">Intern</label><br></a>
-                                <a><input type="checkbox" id="Executive" name="Executive" ><label for="Executive">Executive</label><br></a>
-                                <a><input type="checkbox" id="Sr_Executive" name="Sr_Executive" ><label for="Sr_Executive">Sr Executive</label><br></a>
-                                <a><input type="checkbox" id="Team_leader" name="Team_leader" ><label for="Team_leader">Team leader</label><br></a>
-                                <a><input type="checkbox" id="Trainer" name="Trainer" ><label for="Trainer">Trainer</label><br></a>
-                                <a><input type="checkbox" id="Assistant_Manager" name="Assistant_Manager" ><label for="Assistant_Manager">Assistant Manager</label><br></a>
-                                <a><input type="checkbox" id="Manager" name="Manager" ><label for="Manager">Manager</label><br></a>
-                                <a><input type="checkbox" id="Sr_Manager" name="Sr_Manager" ><label for="Sr_Manager">Sr Manager</label><br></a>
-                                <a><input type="checkbox" id="Head" name="Head" ><label for="Head">Head</label><br></a>
-                                <a><input type="checkbox" id="AVP" name="AVP" ><label for="AVP">AVP</label><br></a>
-                                <a><input type="checkbox" id="VP" name="VP" ><label for="VP">VP</label><br></a>
-                            
-                            </div>
+                            <div class="smenu des_menu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" >  <br></a>
+                            <?php
+                                $exp_des = 1;
+                                while ($row = $result->fetch_assoc()) {
+
+                                    echo '<a><input type="checkbox" id="exp_des'.$exp_des.'" name="exp_des[]" value="'.$row['cd_exp_designation'].'" ><label for="exp_des'.$exp_des.'">'.$row['cd_exp_designation'].'</label><br></a>';
+                                    
+                                    $exp_des++;
+
+                                }
+
+                            ?>
+
+                        </div>
                         </li>
+
                         <?php
 
                             
@@ -159,8 +211,8 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="Location">
                             <a href="#Location" class="btn"><i class="fa fa-briefcase"></i> Location </a>
-                            <div class="smenu">
-
+                            <div class="smenu locmenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $loc = 1;
                                 while ($row = $result->fetch_assoc()) {
@@ -183,8 +235,8 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="communication">
                             <a href="#communication" class="btn"><i class="fa fa-briefcase"></i> Communication </a>
-                            <div class="smenu">
-
+                            <div class="smenu cmenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $com_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
@@ -203,8 +255,8 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="job_profile_one">
                             <a href="#job_profile_one" class="btn"><i class="fa fa-briefcase"></i> Job Role One </a>
-                            <div class="smenu">
-
+                            <div class="smenu jpomenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $jpo_n = 1;
                                 while ($row = $result2->fetch_assoc()) {
@@ -223,8 +275,8 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="jdo">
                             <a href="#jdo" class="btn"><i class="fa fa-briefcase"></i> Job Designation One </a>
-                            <div class="smenu">
-
+                            <div class="smenu jdmenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $jdo_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
@@ -243,13 +295,13 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="jpt">
                             <a href="#jpt" class="btn"><i class="fa fa-briefcase"></i> Job Profile Two </a>
-                            <div class="smenu">
-
+                            <div class="smenu jpmenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $jpt_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
 
-                                    echo '<a><input type="checkbox" id="jpt_'.$com_n.'" name="jpt[]" value="'.$row['cd_job_profile_two'].'" ><label for="jpt_'.$com_n.'">'.$row['cd_job_profile_two'].'</label><br></a>';
+                                    echo '<a><input type="checkbox" id="jpt_'.$jpt_n.'" name="jpt[]" value="'.$row['cd_job_profile_two'].'" ><label for="jpt_'.$jpt_n.'">'.$row['cd_job_profile_two'].'</label><br></a>';
                                     
                                     $jpt_n++;
                                 }
@@ -263,13 +315,13 @@ tr:nth-child(even) {
                         ?>
                         <li class="item" id="jdt">
                             <a href="#jdt" class="btn"><i class="fa fa-briefcase"></i> Job Designation Two </a>
-                            <div class="smenu">
-                            <a><input type="text"><br></a>
+                            <div class="smenu jmenu">
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $jdt_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
 
-                                    echo '<a><input type="checkbox" id="jdt_'.$com_n.'" name="jdt[]" value="'.$row['cd_job_designation_two'].'" ><label for="jdt_'.$com_n.'">'.$row['cd_job_designation_two'].'</label><br></a>';
+                                    echo '<a><input type="checkbox" id="jdt_'.$jdt_n.'" name="jdt[]" value="'.$row['cd_job_designation_two'].'" ><label for="jdt_'.$jdt_n.'">'.$row['cd_job_designation_two'].'</label><br></a>';
                                     
                                     $jdt_n++;
                                 }
@@ -284,7 +336,7 @@ tr:nth-child(even) {
                         <li class="item" id="epi">
                             <a href="#epi" class="btn"><i class="fa fa-briefcase"></i> Industry </a>
                             <div class="smenu Imenu">
-                            <a><input type="text"><br></a>
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $epi_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
@@ -304,7 +356,7 @@ tr:nth-child(even) {
                         <li class="item" id="cd">
                             <a href="#cd" class="btn"><i class="fa fa-briefcase"></i> Document </a>
                             <div class="smenu dmenu">
-                            <a><input type="text"><br></a>
+                            <a><input type="text"> <input class="see_checked" type="checkbox" > <br></a>
                             <?php
                                 $cd_n = 1;
                                 while ($row = $result1->fetch_assoc()) {
@@ -316,8 +368,6 @@ tr:nth-child(even) {
                             ?>
                         </div>
                         </li>
-
-                        
 
                     </ul>
 
@@ -356,30 +406,153 @@ tr:nth-child(even) {
             });
         });
         
+
+
+        // search input
+
         $("input").on('input',function() {
 
-            var search_text = $(this).val().toLowerCase();
+            if( $(".dmenu a input").val() == '' )$('.dmenu a').show();
+            if( $(".Imenu a input").val() == '' )$('.Imenu a').show();
+            if( $(".jmenu a input").val() == '' )$('.jmenu a').show();
+            if( $(".jpmenu a input").val() == '' )$('.jpmenu a').show();
+            if( $(".jdmenu a input").val() == '' )$('.jdmenu a').show();
+            if( $(".jpomenu a input").val() == '' )$('.jpomenu a').show();
+            if( $(".cmenu a input").val() == '' )$('.cmenu a').show();
+            if( $(".locmenu a input").val() == '' )$('.locmenu a').show();
+            if( $(".des_menu a input").val() == '' )$('.des_menu a').show();
+            if( $(".lang_menu a input").val() == '' )$('.lang_menu a').show();
+            if( $(".exp_menu a input").val() == '' )$('.exp_menu a').show();
+            if( $(".qualstr_menu a input").val() == '' )$('.qualstr_menu a').show();
+            if( $(".qual_menu a input").val() == '' )$('.qual_menu a').show();
+            if( $(".gen_menu a input").val() == '' )$('.gen_menu a').show();
+
 
             if ( $(".dmenu a input").val()  != '' ) {
+                var search_text = $(".dmenu a input").val().toLowerCase();
                 $(".dmenu a label").filter(function() {
                     $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
                 });
             }
 
             if ( $(".Imenu a input").val()  != '' ) {
+                var search_text = $(".Imenu a input").val().toLowerCase();
                 $(".Imenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+            
+            if ( $(".jmenu a input").val()  != '' ) {
+                var search_text = $(".jmenu a input").val().toLowerCase();
+                $(".jmenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".jpmenu a input").val()  != '' ) {
+                var search_text = $(".jpmenu a input").val().toLowerCase();
+                $(".jpmenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".jdmenu a input").val()  != '' ) {
+                var search_text = $(".jdmenu a input").val().toLowerCase();
+                $(".jdmenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".jpomenu a input").val()  != '' ) {
+                var search_text = $(".jpomenu a input").val().toLowerCase();
+                $(".jpomenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".cmenu a input").val()  != '' ) {
+                var search_text = $(".cmenu a input").val().toLowerCase();
+                $(".cmenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".locmenu a input").val()  != '' ) {
+                var search_text = $(".locmenu a input").val().toLowerCase();
+                $(".locmenu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".des_menu a input").val()  != '' ) {
+                var search_text = $(".des_menu a input").val().toLowerCase();
+                $(".des_menu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            
+            if ( $(".lang_menu a input").val()  != '' ) {
+                var search_text = $(".lang_menu a input").val().toLowerCase();
+                $(".lang_menu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+
+            if ( $(".exp_menu a input").val()  != '' ) {
+                var search_text = $(".exp_menu a input").val().toLowerCase();
+                $(".exp_menu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+            if ( $(".qualstr_menu a input").val()  != '' ) {
+                var search_text = $(".qualstr_menu a input").val().toLowerCase();
+                $(".qualstr_menu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+            if ( $(".qual_menu a input").val()  != '' ) {
+                var search_text = $(".qual_menu a input").val().toLowerCase();
+                $(".qual_menu a label").filter(function() {
+                    $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
+                });            
+            }
+            if ( $(".gen_menu a input").val()  != '' ) {
+                var search_text = $(".gen_menu a input").val().toLowerCase();
+                $(".gen_menu a label").filter(function() {
                     $(this).parent('a').toggle( $(this).text().toLowerCase().indexOf(search_text) !== -1 )
                 });            
             }
 
             
         });
-	    
-	$(".Imenu a input").not(':checked').each(function() {
-		$(this).parent('a').toggle();
-	    });
         
-        
+
+
+
+        // see_checked
+        $(".see_checked").change(function() {
+            console.log( this.checked )
+            console.log( $(this).parents('li.item').attr('id')  )
+
+            
+            if ( this.checked &&  $(this).parents('li.item').attr('id') == 'Qualification' ){
+                $(".qual_menu a input").not(':checked,:first').each(function() {
+                    $(this).parent('a').toggle();
+                });
+            }
+
+            if ( this.checked &&  $(this).parents('li.item').attr('id') == 'qual_strm' ){
+                $(".qualstr_menu a input").not(':checked,:first').each(function() {
+                    $(this).parent('a').toggle();
+                });
+            }
+
+            
+        })
+
+
+
     </script>
     
 
